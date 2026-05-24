@@ -1,0 +1,10 @@
+from django.apps import AppConfig
+
+class MyappConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'myapp'
+
+    def ready(self):
+        from watcher.db_secret_watcher import start_vault_poller
+        import threading
+        threading.Thread(target=start_vault_poller, daemon=True).start()
